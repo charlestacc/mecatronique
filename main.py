@@ -256,10 +256,18 @@ class SimpleRobotControl:
             (m.x_goal - m.x) * (m.x_goal - m.x) + (m.y_goal - m.y) * (m.y_goal - m.y)
         ) #calcul la distance entre pos du robot et point cliqué
 
-        # TODO #utiliser angle_diff
-        local_speed = 1,5* distance #k*distance
-        local_turn = 0 #k*angle
+        dx=m.x_goal-m.x
+        dy=m.y_goal-m.y 
 
+        if dy==0 and dx==0:
+            angle_diff=0
+        else :
+            angle_diff=math.atan2(dy,dx) #calcul de l'angle teta entre le point cliqué et la direction du robot 
+            angle_diff=self.angle_diff(m.theta, angle_diff)
+
+        local_speed= distance*0.5
+        local_turn = angle_diff*-1.2
+        
         m1_speed, m2_speed = m.ik(local_speed, local_turn)
         m.m1.speed = m1_speed
         m.m2.speed = m2_speed
@@ -268,10 +276,10 @@ class SimpleRobotControl:
         """Returns the smallest distance between 2 angles
         """
         # TODO #modulo 2pi et recuperer l'angle le plus petit !
-        d = 0
+        d = a - b
+        d = ((d + math.pi) % (2 * math.pi)) - math.pi
         return d
-
-
+        
 def main():
     robot = SimpleRobotControl()
 
