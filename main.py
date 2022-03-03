@@ -257,7 +257,7 @@ class SimpleRobotControl:
         ) #calcul la distance entre pos du robot et point cliqué
 
         # TODO #utiliser angle_diff
-        local_speed = 0 #k*distance
+        local_speed = 1,5* distance #k*distance
         local_turn = 0 #k*angle
 
         m1_speed, m2_speed = m.ik(local_speed, local_turn)
